@@ -5,12 +5,14 @@ alias ll='ls -laFh'
 alias list="la -laFh"
 alias grep='grep -- color=auto'
 
-
-function git-acp(){
+function git-acp() {
+    if [ -z "$1" ]; then
+        echo "Error: Type in a commit message!"
+        return 1
+    fi
+ 
     git add .
-    git commit -m 'This was commited with git-acp'
+    git commit -m "$1" || return 2
     echo "git push would've run now!"
-    #git push
+    git push && echo "Push successful!" || (echo "failed to push :(" && return 3)
 }
-
-git-acp
